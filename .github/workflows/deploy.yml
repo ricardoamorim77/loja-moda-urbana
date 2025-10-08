@@ -11,6 +11,10 @@ permissions:
   pages: write
   id-token: write
 
+ # deploy.yml
+
+# ... (outras seções do arquivo)
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -20,7 +24,7 @@ jobs:
       - name: Install pnpm
         uses: pnpm/action-setup@v3
         with:
-          version: 8
+          version: 8 # Você pode usar a versão 10 que está no seu package.json
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
@@ -28,12 +32,19 @@ jobs:
           cache: 'pnpm'
       - name: Install dependencies
         run: pnpm install --no-frozen-lockfile
+
+      # 👇 ALTERE ESTES PASSOS 👇
       - name: Build
-        run: touch ./dist/nojekyll
+        run: pnpm run build # Adicione este comando para buildar o projeto
+      - name: Create .nojekyll file
+        run: touch ./dist/.nojekyll # É uma boa prática criar este arquivo
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: ./dist
+
+# ... (resto do arquivo)
 
   deploy:
     needs: build

@@ -1,3 +1,5 @@
+// eslint.config.js
+
 import js from '@eslint/js'
 import globals from 'globals'
 import reactHooks from 'eslint-plugin-react-hooks'
@@ -9,7 +11,11 @@ export default [
     files: ['**/*.{js,jsx}'],
     languageOptions: {
       ecmaVersion: 2020,
-      globals: globals.browser,
+      // 👇 ALTERE ESTA LINHA 👇
+      globals: {
+        ...globals.browser,
+        ...globals.node, // Adiciona os globais do Node.js
+      },
       parserOptions: {
         ecmaVersion: 'latest',
         ecmaFeatures: { jsx: true },
@@ -31,3 +37,4 @@ export default [
     },
   },
 ]
+
